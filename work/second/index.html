@@ -29,9 +29,10 @@
       // .fadeOut() 一定時間かけてフェードアウトする。
       $('.modal-show').on('click',function(){
         $('.modal').fadeIn('slow')
-        $('.modal-close').on('click',function(){
-          $('.modal').fadeOut('slow')
-        });
+      });
+      $('.modal-close').on('click',function(){
+        console.log('fadeOut');
+        $('.modal').fadeOut('slow')
       });
     </script>
   </body>

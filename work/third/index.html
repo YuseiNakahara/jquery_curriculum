@@ -30,11 +30,11 @@
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
       // .removeClass() クラスを削除します。
-      $('.nav').find('li').click(function() {
-        var index = $(this).index();
-        var contentsItem = $('.contents').find('li');
-        contentsItem.addClass('is-hidden');
-        contentsItem.eq(index).removeClass('is-hidden');
+      $('.nav').find('li').click(function() {　//  navの中のliをクリックしたとき
+        var index = $(this).index();　//  indexという変数thisをindexで何番目か取得した要素を代入する
+        var contentsItem = $('.contents').find('li');　//  contentsItemという変数にcontentsの中のliで特定の要素を取得して代入
+        contentsItem.addClass('is-hidden');　//  contentsItemという変数にis-hiddenというクラスを付与すると隠すことが出来る
+        contentsItem.eq(index).removeClass('is-hidden');　//  contentsItemにeqで特定の要素だけを取ってきて、必要でないクラスは消し、特定要素を表示
       });
     </script>
-  </body>
+  </body> 

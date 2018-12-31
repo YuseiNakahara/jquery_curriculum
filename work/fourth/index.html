@@ -56,13 +56,14 @@
       // .next() 要素の隣の要素を取得します。
       // .children() 要素の子要素を取得します。
       // .stop() 現在動作中のアニメーション処理を全て中止します。
-      $('.menu__list').children('li').hover(
-      function(){
-        $(this).children('ul').stop().slideDown();
-      },
-      function(){
-        $(this).children('ul').stop().slideUp();
-      });
+      $('.menu__list').children('li').hover(　//menu_listの子要素のliをホバーした時に
+        function(){
+          $(this).children('ul').stop().slideDown();　//menu__listの子要素のulにstopをかけて連続するアニメーションを止めて要素をスライドさせながら表示させます
+        },
+        function(){
+          $(this).children('ul').stop().slideUp();　//menu__listの子要素のulにstopをかけて連続するアニメーションを止めてスライドしながら非表示にさせます
+        }
+      );
     </script>
   </body>
 </html>

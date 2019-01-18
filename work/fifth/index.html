@@ -98,15 +98,18 @@
       // .change() セレクトボックスの値の変更をキャッチする関数
       // $().each() DOM要素を1つずつループ処理をする（ループ内で$(this)を使うと要素がひとつずつ取得できる）
       
-      $('.select').change(function(){ //selectの中が変わった関数
-        var value = $(this).val(); //valueという変数にSekectのValを代入する
-        $('ul.list li').each(function(){ //listというクラスのUlの中の複数あるLiを処理する時
+      $('.select').change(function(){ //selectのイベントが処理される時
+        var value = $(this).val(); //valueという変数にSelectのValueを取得し代入する
+        $('ul.list li').each(function(){ //listというクラスのUlの中の複数あるLiをループ処理する時
           if($(this).data('category-type')==value){ //data属性がValueと一致した場合
             $(this).show(); //一致している要素を表示させる
           } else { //また
             $(this).hide(); //違った場合は要素を非表示にする
           };
         });
+        if(value=='all'){ //category-typeだけが一致していても、Allを選択した場合に全て、非表示にしてしまうのでもう一つif文を用意する必要がある
+          $('ul.list li').show(); //listというクラスのUlの中の複数あるLiを表示
+        }
       });
     </script>
   </body>

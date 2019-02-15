@@ -20,7 +20,7 @@
             <li><img src="./img/4.jpg"></li>
           </ul>
           <button type="button" class="slider-ctrl-btn is-prev" data-ctrl="prev"></button>
-          <button type="button" class="slider-ctrl-btn is-next" data-ctrl="next"></button>
+          <button type="button" class="slider-ctrl-btn is-next" data-ctrldata="next"></button>
         </div>
       </div>
     </div>
@@ -34,6 +34,31 @@
       // .data() 要素のdata属性を取得します。
       // .width() 要素の幅を取得します。
       // .length 要素の個数を取得します。
+
+      var click = 0; //clickに０を代入し定義する
+      $('.is-next').click(function(){ //is-nextがクリックされた時
+        click++; //clickを１ずつ増やしていくようにします
+        console.log(click)
+        if(click > 3) { //if文でclick大なり3と言う式を作り
+          click = 0; //clickが3よりも大きくなった場合、clickを0にするようにしてあります
+        } //ここで一気に最終ページに飛ぶように設定されています
+
+        $('.slider-list').animate({ //slider-listがアニメーションする時
+          left: click * -600　//左方向にクリック内の数かける画像の横幅分をズラしてスライドさせます。
+        }, 500); //0.5秒の速度で
+      });
+
+      $('.is-prev').click(function(){ //is-prevがクリックされた時
+        click--; //クリックを一つずつ減らして行きます。0から
+        console.log(click)
+        if(click < 0) { //if文でクリック小なり0とし
+          click = 3; //クリックが0より小さくなった場合、clickを3にするようにしてあります。
+        } //ここで一気に最終ページに飛ぶよう設定されています
+
+        $('.slider-list').animate({ //slider-listがアニメーションするとき
+          left: click * -600 //右方向にクリック内の数かける画像の横幅分をズラしてスライドさせます。
+        }, 500); //0.5秒の速度で
+      });
     </script>
   </body>
 </html>

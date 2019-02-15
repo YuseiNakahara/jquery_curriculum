@@ -42,6 +42,26 @@
       // .offset().top 要素の位置を取得します。
       // .fadeIn() 要素をフェードインさせる。
       // .fadeOut() 要素をフェードアウトさせる。
+
+      //メニューをクリックして、タイトルと同じ位置までスクロール
+      $('.menu__btn').click(function(){ //menu__btnをクリックした時
+        var btn_type = $(this).data('scroll-place-type'); // btn_typeという変数に、データを取得し代入
+        var title_type = $('.title[data-scroll-place-type= '+btn_type+' ]'); //title_typeという変数に、クリックされた時のdata属性に切り替わるようにしています
+        $('body,html').animate({scrollTop: title_type.position().top},500); //htmlのbodyをクリックされたtitle_typeのトップまでアニメーションするようにしています
+      });
+      
+      //トップボタン・フェードアウト・フェードイン
+      var scrollTop = $('.scrollTopBtn'); //scrollTopという変数にscrollTopBtnを代入
+      scrollTop.click(function(){ //scrollTopをクリックした時に
+        $('html,body').animate({scrollTop:'0'},500); //htmlのbodyをアニメーションでscrollTop:0にして、ページトップに持ってきます
+      });
+      $(window).scroll(function(){ //windowをscrollした時に
+        if($(window).scrollTop() >= 100){ //if文でwindowのscrollTopの位置が100pxと等しい場合と大きい場合は
+          scrollTop.fadeIn('.scrollTopBtn'); // スクロールトップボタンをフェードインさせて
+        } else if($(window).scrollTop() < 100){ //また、else ifでwindowのscrollTopの位置が100px小なりとし
+          scrollTop.fadeOut('.scrollTopBtn'); //小さい場合は、スクロールトップボタンをフェードアウトさせる
+        }
+      });
     </script>
   </body>
 </html>

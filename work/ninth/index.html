@@ -47,20 +47,19 @@
       // このテンプレートに取得してきたオブジェクトを流し込みます。
 
 
-        $.ajax({
-        url: './data.json'
-        })
-        .done(function(data) {
-          console.log(data)
-          $.each(data.colorsArray,function(){ //$.each()で繰り返し処理を行いたい配列を指定し
-            $('.colorList').append( //colorListにhtml要素の<li>を生成し
-              $('<li>').addClass('colorList__item').append( //生成した<li>に対して、addclassでクラスを追加し、そのliに<p>を生成し、クラスを追加
-              $('<p>').addClass('colorList__title').css('background-color',$(this)[0].hexValue).text($(this)[0].colorName) //cssで色を付けるために、$(this)[0].hexValue)とするとthisが繰り返し処理される都度入れ替わり、その順番に応じてhexValueが替わる　textも同じ
-              )
-            );
-          });
+      $.ajax({
+      url: './data.json'
+      })
+      .done(function(data) {
+        console.log(data)
+        $.each(data.colorsArray,function(){ //$.each()で繰り返し処理を行いたい配列を指定し
+          console.log(this)
+          $('.colorList').append(('<li class="colorList__item">' + 
+          '<p class="colorList__title" style="background-color: ' + this.hexValue + ';"> '+ this.colorName +'</p>' +
+          '</li>')
+          );
         });
-
+      });
     </script>
   </body>
 </html>

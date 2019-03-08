@@ -48,17 +48,19 @@
 
 
       $.ajax({
-      url: './data.json'
+        url: './data.json'
       })
       .done(function(data) {
         console.log(data)
+        var colorlist = '';
         $.each(data.colorsArray,function(){ //$.each()で繰り返し処理を行いたい配列を指定し
           console.log(this)
-          $('.colorList').append(('<li class="colorList__item">' + 
-          '<p class="colorList__title" style="background-color: ' + this.hexValue + ';"> '+ this.colorName +'</p>' +
-          '</li>')
-          );
+          colorlist += '<li class="colorList__item">' + //colorListの中に<li>を生成し、＋で<p>も生成
+          '<p class="colorList__title" style="background-color: ' + this.hexValue + ';"> '+ this.colorName +'</p>'
+          '</li>' //文字列の中で変数を展開したい時に＋＋を使い展開　thisの中にはオブジェクトが入っている　
         });
+
+        $('.colorList').html(colorlist);
       });
     </script>
   </body>

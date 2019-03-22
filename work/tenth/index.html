@@ -69,13 +69,13 @@
           var preSearchword = ''; //空の文字列を入れてあります
           var pageNum = 1; //変数に１を代入
           $('.search__btn').on('click', function () { //検索ボタンがクリックされた時
-            var searchword = $('.search__text__input').val(); //変数にバリューを取得した値を代入
+            var searchword = $('.search__text__input').val(); //変数にバリューを取得した値を代入 文字を入力する部分
             if (preSearchword === searchword) { //if文でpreSearchwordとsearchwordが厳密に等しい場合の式を作り
               //console.log(pageNum)
-              pageNum++; // 2回目クリックされる時の検索結果が同じ場合、１ずつプラスしていきます
+              pageNum++; //１回目の検索結果と2回目クリックされる時の検索結果が同じ場合、１ページずつプラスしていきます
             } else { //そうでない場合
-              pageNum = 1; //ページ数を１に戻します
-              $('ul').empty(); //同時に下に表示していたulをempty()で消します
+              pageNum = 1; //ページ数を１に戻します　最初のクリックの際は、falseを返します
+              $('ul').empty(); //同時に下に表示していたulの子要素をempty()で消します
             }
             preSearchword = searchword; //preSearchwordにsearchwordを入れます
             // console.log(searchword);
@@ -92,33 +92,41 @@
                 page: pageNum //ページ数
               },
             })
-            .done(function (data) { //処理が完了した時
-              console.log(data);
-              //検索結果が0件の場合
-              if (data.hits === 0) { //if文で、ヒット件数が0と厳密に等しい場合
-                $('ul.lists').prepend('<p class="message">検索結果が見つかりませんでした<br>別のキーワードで検索してください</p>'); //listというクラスを持つulのなかに、prependでコメントを入れます
-              }
-              //通信が成功した時
-              var booklist = ''; //変数にからの文字列を代入
-              $.each(data.Items,function(index,item){ //$.eachで楽天APIのデータに対して処理を行い、　itemは、現在のアクセスのDOM（htmlなどを自由に操作する仕組み）を意味しています。
-                // console.log(item);
-                booklist += '<li class="lists__item">' + index + '<div class="lists__item__inner">' + '<a href="' + // booklistという変数に必要なクラスを代入しつつ、全ての要素に対して固有パラメータを入れます
-                item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item
-                .largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' +
-                '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + //itemは、関数の第二引数,Itemは、楽天の個別商品のバリュー,三つ目は、固有パラメーター
-                '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' +
-                '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' +
-                '</div>' + '</li>';
-              })
-              $('ul.lists').prepend(booklist); //listというクラスを持つulの中にprepend(変数)とし、入れます
+            .done(function (data) { //doneで処理が完了した時
+              // console.log(data);
+              test01(data); //処理をまとめて入れてあります
             })
             // 通信が失敗した時
-            .fail(function () { //通信失敗時は、fail文
-              $('.lists').after('<div class="error"></div>') //errorという新たなクラスをlistsの後ろ(中)に挿入します
-              error = $('.error'); //変数にクラスを代入
-              error.html('<p class="message">データ通信できませんでした<br>接続を確認してください</p>'); //変数に対して、htmlで書き換えて、文字を入力しないで検索をかけた場合と通信がうまくいかなかった時にエラー文を表示させます
+            .fail(function (data) { //通信失敗時は、fail文を使います
+              test02(data); //処理をまとめて入れてあります
             })
           });
+
+          function test01(data) { //doneの関数を別で定義して、凡用性のあるようにする
+            //検索結果が0件の場合
+            if (data.hits === 0) { //if文で、ヒット件数が0と厳密に等しい場合
+              $('ul.lists').prepend('<p class="message">検索結果が見つかりませんでした<br>別のキーワードで検索してください</p>'); //listというクラスを持つulの中に、prependでクラスを入れ、pタグを表示させます
+            }
+            //通信が成功した時
+            var booklist = ''; //変数に空の文字列を代入
+            $.each(data.Items,function(index,item){ //$.eachで繰り返し処理を行い、　itemは、現在のアクセスのDOM（htmlなどを自由に操作する仕組み）を意味しています。
+              console.log(item);
+              booklist += '<li class="lists__item">' + index + '<div class="lists__item__inner">' + '<a href="' + // booklistという変数に必要なクラスを加算代入しつつ、全ての要素に対して固有パラメータを入れます
+              item.Item.itemUrl + '"class="lists__item__link" target="_blank">' + '<img src="' + item.Item
+              .largeImageUrl + '" class="lists__item__img" alt="' + item.Item.title + '">' +
+              '<p class="lists__item__detail">作品名：　' + item.Item.title + '</p>' + //itemは、関数の第二引数,Itemは、楽天の個別商品のバリュー,三つ目は、固有パラメーター
+              '<p class="lists__item__detail">作者　：　' + item.Item.author + '</p>' +
+              '<p class="lists__item__detail">出版社：　' + item.Item.publisherName + '</p>' + '</a>' +
+              '</div>' + '</li>';
+            })
+            $('ul.lists').prepend(booklist); //listというクラスを持つulの中にprepend(変数)とし、入れます
+          }
+
+          function test02(data) { //failの関数を別で定義しています
+            $('.lists').after('<div class="error"></div>') //errorという新たなクラスをlistsの後ろ(中)に挿入します
+            error = $('.error'); //変数にクラスを代入
+            error.html('<p class="message">データ通信できませんでした<br>接続を確認してください</p>'); //変数に対して、htmlで書き換えて、文字を入力しないで検索をかけた場合と通信がうまくいかなかった時にエラー文を表示させます
+          }
         });
     </script>
   </body>
